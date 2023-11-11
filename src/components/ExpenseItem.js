@@ -3,7 +3,7 @@ import { TiDelete } from 'react-icons/ti';
 import { AppContext } from '../context/AppContext';
 
 const ExpenseItem = (props) => {
-    const { dispatch } = useContext(AppContext);
+    const { currency, dispatch } = useContext(AppContext);
 
     const handleDeleteExpense = () => {
         dispatch({
@@ -24,13 +24,59 @@ const ExpenseItem = (props) => {
         });
 
     }
+    const decreaseAllocation = (name) => {
+        const expense = {
+            name: name,
+            cost: 10,
+        };
+
+        dispatch({
+            type: 'RED_EXPENSE',
+            payload: expense
+        });
+
+    }
+
+    const circleButtonStyle = {
+        backgroundColor: 'green',
+        borderRadius: '50%',
+        width: '30px',
+        height: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        border: 'none',
+        cursor: 'pointer',
+    };
+    const redCircleButtonStyle = {
+        backgroundColor: 'red',
+        borderRadius: '50%',
+        width: '30px',
+        height: '30px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        border: 'none',
+        cursor: 'pointer',
+    };
 
     return (
         <tr>
-        <td>{props.name}</td>
-        <td>£{props.cost}</td>
-        <td><button onClick={event=> increaseAllocation(props.name)}>+</button></td>
-        <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
+            <td>{props.name}</td>
+            <td>{currency}{props.cost}</td>
+            <td>
+                <button style={circleButtonStyle} onClick={() => increaseAllocation(props.name)}>
+                    +
+                </button>
+            </td>
+            <td>
+                <button style={redCircleButtonStyle} onClick={() => decreaseAllocation(props.name)}>
+                    -
+                </button>
+            </td>
+            <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
         </tr>
     );
 };
